@@ -1,6 +1,6 @@
 # LinkHub - A Cloud-Native Microservices Platform
 
-A multi-service, link-sharing platform (similar to Linktree) built from the ground up using modern, professional backend and DevOps practices. This project is currently in development as part of an intensive 12-week roadmap.
+A multi-service, link-sharing platform (similar to Linktree) built from the ground up using modern, professional backend and DevOps practices. This project is currently in development
 
 ## Current Features (As of Week 2)
 - Full CRUD (Create, Read, Update, Delete) functionality for User management via a REST API.
