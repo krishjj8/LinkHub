@@ -19,3 +19,14 @@ A multi-service, link-sharing platform (similar to Linktree) built from the grou
 - [ ] Infrastructure as Code (IaC) with Terraform
 - [ ] Deployment to AWS using Kubernetes (EKS)
 - [ ] Observability with Prometheus & Grafana
+
+## How to Run Locally
+
+1.  Clone the repository: `git clone https://github.com/krishjj8/LinkHub.git`
+2.  Navigate into the project directory: `cd LinkHub`
+3.  Ensure you have Docker and Docker Compose installed and running.
+4.  Run the application using Docker Compose:
+    ```bash
+    docker compose up --build
+    ```
+5.  The `link-service` API will be available at `http://localhost:8080`.
