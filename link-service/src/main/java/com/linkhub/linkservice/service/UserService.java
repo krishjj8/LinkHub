@@ -53,6 +53,11 @@ public class UserService {
         }
         return userRepository.save(existinguser);
     }
+    public void deleteUser(Long id){
+        User userToDelete=getUserById(id);
+
+        userRepository.deleteById(userToDelete.getId());
+    }
 
 
 }
