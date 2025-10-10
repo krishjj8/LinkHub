@@ -9,12 +9,14 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-server:
-  port: 8080
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "mappings"
 logging:
   level:
     org.springframework.web.servlet.mvc.method.annotation: TRACE
