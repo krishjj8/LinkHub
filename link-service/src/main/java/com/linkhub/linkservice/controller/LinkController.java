@@ -60,5 +60,10 @@ public class LinkController {
 
         return ResponseEntity.ok(responseDto);
     }
+    @DeleteMapping("/users/{userId}/links/{linkId}")
+    public ResponseEntity<Void> deleteLink(@PathVariable Long userId, @PathVariable Long linkId){
+        linkService.deleteLink(userId,linkId);
+        return ResponseEntity.noContent().build();
+    }
 
 }

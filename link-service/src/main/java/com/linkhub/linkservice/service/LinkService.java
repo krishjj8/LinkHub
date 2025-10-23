@@ -82,4 +82,17 @@ public class LinkService {
 
 
     }
+    public void deleteLink(Long userId, Long linkId){
+        userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        Link linkToDelete=linkRepository.findById(linkId)
+                .orElseThrow(() -> new RuntimeException(("Link no found")));
+
+        if(!linkToDelete.getUser().getId().equals(userId)){
+            throw new RuntimeException("Link with id" + linkId + "does not belong to user with id" +userId);
+
+        }
+        linkRepository.delete(linkToDelete);
+    }
 }
