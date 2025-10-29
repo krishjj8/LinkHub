@@ -2,7 +2,7 @@
 
 [![Link Service CI/CD Pipeline](https://github.com/krishjj8/LinkHub/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/krishjj8/LinkHub/actions/workflows/ci-pipeline.yml)
 
-LinkHub is a multi-service, link-sharing platform built from the ground up to demonstrate a full software development lifecycle using modern backend and DevOps practices. The project serves as a practical implementation of a cloud-native architecture, from local containerized development to automated continuous integration and delivery.
+LinkHub is a multi-service, link-sharing platform built from the ground up to demonstrate a full software development lifecycle using modern backend and DevOps practices. The project serves as a practical implementation of a cloud-native architecture, from local containerized development to automated continuous integration and future cloud deployment.
 
 ---
 
@@ -27,24 +27,25 @@ The platform is designed as a distributed system with a professional 3-tier arch
 
 ## Technology Stack
 
-| Category                | Technologies                                      |
-| :---------------------- | :------------------------------------------------ |
+| Category | Technologies |
+| :--- | :--- |
 | **Backend & Databases** | Java 17, Spring Boot 3, Spring Data JPA, PostgreSQL |
-| **Containerization** | Docker, Docker Compose                            |
-| **Automation & CI/CD** | GitHub Actions, Git, Maven                        |
-| **Testing** | JUnit 5, Mockito                                  |
-| **Cloud (Registry)** | AWS Elastic Container Registry (ECR)              |
+| **Containerization** | Docker, Docker Compose |
+| **Automation & CI/CD** | GitHub Actions, Git, Maven |
+| **Infrastructure as Code** | Terraform |
+| **Testing** | JUnit 5, Mockito |
+| **Cloud** | AWS (ECR, VPC) |
 
 ---
 
-## Future Scope
+## Project Roadmap
 
-The next major phase of this project involves deploying the application to a live cloud environment on AWS using Infrastructure as Code and container orchestration.
+The project is currently in the cloud infrastructure phase, with plans to complete a full deployment to AWS.
 
--   **Infrastructure as Code (IaC):** Provision all cloud resources, including the network (VPC), servers, and managed database, on AWS using **Terraform**.
--   **Kubernetes Deployment:** Deploy the containerized microservices to a **Kubernetes** cluster (k3s on EC2) running in the provisioned AWS environment.
--   **GitOps Automation:** Implement a fully automated, pull-based deployment workflow using **ArgoCD** for managing the live application state.
--   **Observability:** Integrate a monitoring stack with **Prometheus** and **Grafana** to provide dashboards and alerts for application performance and system health.
+-   [x] **Infrastructure as Code (IaC):** Provisioning all cloud resources, including a secure multi-layered network (VPC) and firewalls (Security Groups), on AWS using **Terraform**.
+-   [ ] **Kubernetes Deployment:** Deploy the containerized microservices to a **Kubernetes** cluster (k3s on EC2) running in the provisioned AWS environment.
+-   [ ] **GitOps Automation:** Implement a fully automated, pull-based deployment workflow using **ArgoCD** for managing the live application state.
+-   [ ] **Observability:** Integrate a monitoring stack with **Prometheus** and **Grafana** to provide dashboards and alerts for application performance and system health.
 
 ---
 
