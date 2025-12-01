@@ -1,11 +1,11 @@
 variable "db_username" {
-  description = "linkhub"
+  description = "username"
   type        = string
   sensitive   = true # Hides the value from logs
 }
 
 variable "db_password" {
-  description = "krish080106miggi"
+  description = "password"
   type        = string
   sensitive   = true
 }
