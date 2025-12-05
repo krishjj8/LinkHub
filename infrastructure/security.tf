@@ -72,6 +72,13 @@ resource "aws_security_group" "db" {
     protocol        = "tcp"
     security_groups = [aws_security_group.app.id] #
   }
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    # We reference the K3s Node Security Group here
+    security_groups = [aws_security_group.k3s_node.id]
+  }
 
   # Allow all outbound traffic (can be restricted further in high-security environments)
   egress {

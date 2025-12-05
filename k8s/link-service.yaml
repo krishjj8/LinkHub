@@ -1,0 +1,55 @@
+# --- DEPLOYMENT (The Application) ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: link-service
+spec:
+  replicas: 1 # Run 1 copy of the app
+  selector:
+    matchLabels:
+      app: link-service
+  template:
+    metadata:
+      labels:
+        app: link-service
+    spec:
+      # --- ADD THIS BLOCK ---
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: link-service
+          # We use the image we pushed to ECR!
+          # REPLACE THIS with your actual ECR URI (e.g., 123456789.dkr.ecr.ap-south-1.amazonaws.com/link-service:latest)
+          image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/link-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            # We pass the DB credentials as environment variables
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://linkhub-db-prod.cboc8ogyqde1.ap-south-1.rds.amazonaws.com:5432/linkhub" # Note: pointing to a future K8s service
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "linkhub"
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials  # The name we gave in Step 1
+                  key: password # In production, use K8s Secrets!
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+
+
+
+---
+# --- SERVICE (The Network Access) ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: link-service
+spec:
+  selector:
+    app: link-service
+  ports:
+    - protocol: TCP
+      port: 80      # The port the Service exposes inside the cluster
+      targetPort: 8080 # The port the container is listening on
+  type: ClusterIP # Internal only for now
