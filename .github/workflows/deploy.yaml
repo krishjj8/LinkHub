@@ -21,7 +21,8 @@ jobs:
         distribution: 'temurin'
 
     - name: Build JAR
-      run: ./mvnw clean package -DskipTests
+      working-directory: link-service
+      run: mvn clean package -DskipTests
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -39,6 +40,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: link-service # Make sure this matches your Terraform repo name
         IMAGE_TAG: ${{ github.sha }}
+      working-directory: link-service
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
