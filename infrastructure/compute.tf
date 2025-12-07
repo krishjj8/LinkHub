@@ -58,7 +58,7 @@ resource "aws_security_group" "k3s_node" {
 resource "aws_instance" "k3s_server" {
 
   ami           = "ami-00bb6a80f01f03502"
-  instance_type = "t2.micro" # Free Tier eligible!
+  instance_type = "t3a.medium" # Free Tier eligible!
 
   # Networking
   subnet_id                   = aws_subnet.public_a.id # Must be in a PUBLIC subnet to be reachable
