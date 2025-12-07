@@ -32,7 +32,7 @@ public class UserController {
         }
         return userResponseDtos;
     }
-
+// change to check in CI pipline
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserCreateRequestDto userDto) {
         User newUser = userService.createUser(userDto);
