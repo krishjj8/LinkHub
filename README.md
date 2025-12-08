@@ -1,67 +1,86 @@
-# LinkHub - A Cloud-Native Microservices Platform
+# LinkHub - Cloud-Native DevSecOps Platform
 
-[![Link Service CI/CD Pipeline](https://github.com/krishjj8/LinkHub/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/krishjj8/LinkHub/actions/workflows/ci-pipeline.yml)
+[![Build and Deploy](https://github.com/krishjj8/LinkHub/actions/workflows/deploy.yaml/badge.svg)](https://github.com/krishjj8/LinkHub/actions/workflows/deploy.yaml)
 
-LinkHub is a multi-service, link-sharing platform built from the ground up to demonstrate a full software development lifecycle using modern backend and DevOps practices. The project serves as a practical implementation of a cloud-native architecture, from local containerized development to automated continuous integration and future cloud deployment.
+LinkHub is a production-grade, distributed microservices platform engineered to solve the scalability challenges of high-traffic link sharing. Beyond standard CRUD operations, this project serves as a rigorous implementation of modern **Platform Engineering** principles, demonstrating how to architect, secure, and automate a cloud-native system from the ground up.
+
+It transitions from a traditional manual deployment model to a fully automated **GitOps** workflow, leveraging Kubernetes and Infrastructure as Code to ensure reliability and reproducibility.
 
 ---
 
-## Core Architecture and Features
+## System Architecture & Engineering Decisions
 
-The platform is designed as a distributed system with a professional 3-tier architecture, emphasizing a clean separation of concerns.
+The platform allows users to create public profiles and manage collections of links. To handle potential high-read traffic (e.g., a viral profile), the architecture has been evolved from a simple monolithic app into a resilient distributed system.
 
-* **Full CRUD API:** The system exposes a complete REST API with full Create, Read, Update, and Delete functionality for both `User` and `Link` entities, including the management of their relational mappings.
+### 1. Distributed Caching Strategy (Redis)
+To protect the primary database from read-heavy load spikes, I implemented a **Cache-Aside** pattern using Redis.
+* **The Logic:** Incoming read requests first check the in-memory Redis cache. If the data exists (Cache Hit), it is returned instantly with sub-millisecond latency, bypassing the database entirely.
+* **The Impact:** Drastically reduces latency for frequently accessed user profiles and offloads significant pressure from the PostgreSQL database.
 
-* **Microservice Design:** The application is broken down into distinct services to handle different business domains:
-    * `link-service`: The core backend API responsible for all user and link management.
-    * `analytics-service`: A secondary service designed for background tasks, such as tracking link clicks.
+### 2. Zero-Touch Deployment (GitOps)
+I moved away from manual `kubectl` commands to a mature, pull-based deployment model using **ArgoCD**.
+* **Continuous Integration (CI):** A GitHub Actions pipeline automatically builds the Java application, containerizes it, pushes the artifact to a private **AWS ECR** registry, and commits the new image tag back to the repository.
+* **Continuous Delivery (CD):** ArgoCD monitors the repository for changes and automatically syncs the live Kubernetes cluster to the desired state. This ensures that the code in Git is always the single source of truth for the production environment.
 
-* **Containerized Environment:** The entire application stack, including the backend services and the PostgreSQL database, is fully containerized using **Docker**. The local development environment is managed with **Docker Compose**, allowing the entire platform to be launched with a single command.
-
-* **Automated CI/CD Pipeline:** A complete Continuous Integration and Delivery pipeline has been engineered using **GitHub Actions**. On every push to the `main` branch, this workflow automatically:
-    1.  Executes the full suite of **JUnit/Mockito** unit tests to validate code integrity.
-    2.  Builds fresh Docker images for the services.
-    3.  Pushes the tagged images securely to a private **AWS Elastic Container Registry (ECR)** repository.
+### 3. Ephemeral Infrastructure (Terraform)
+The entire cloud environment is defined as code, allowing for the rapid provisioning and destruction of resources to optimize cloud costs (FinOps).
+* **Networking:** Custom VPC with public/private subnet isolation to secure the database layer.
+* **Compute:** Provisioned EC2 instances running K3s (Lightweight Kubernetes).
+* **Storage:** Managed AWS RDS (PostgreSQL) for persistent data storage.
 
 ---
 
 ## Technology Stack
 
-| Category | Technologies |
+| Domain | Technology Choice |
 | :--- | :--- |
-| **Backend & Databases** | Java 17, Spring Boot 3, Spring Data JPA, PostgreSQL |
-| **Containerization** | Docker, Docker Compose |
-| **Automation & CI/CD** | GitHub Actions, Git, Maven |
-| **Infrastructure as Code** | Terraform |
-| **Testing** | JUnit 5, Mockito |
-| **Cloud** | AWS (ECR, VPC) |
+| **Core Backend** | Java 17, Spring Boot 3, Spring Data JPA |
+| **Data & Caching** | PostgreSQL (AWS RDS), Redis (Cluster Cache) |
+| **Orchestration** | Kubernetes (K3s), Traefik Ingress |
+| **GitOps & CI/CD** | ArgoCD, GitHub Actions, AWS ECR |
+| **Infrastructure** | Terraform (IaC), AWS VPC, EC2 |
+| **Development** | Docker, Docker Compose, Maven |
 
 ---
 
-## Project Roadmap
+## Project Roadmap & Status
 
-The project is currently in the cloud infrastructure phase, with plans to complete a full deployment to AWS.
+This project is actively being engineered with a focus on performance and automation.
 
--   [x] **Infrastructure as Code (IaC):** Provisioning all cloud resources, including a secure multi-layered network (VPC) and firewalls (Security Groups), on AWS using **Terraform**.
--   [ ] **Kubernetes Deployment:** Deploy the containerized microservices to a **Kubernetes** cluster (k3s on EC2) running in the provisioned AWS environment.
--   [ ] **GitOps Automation:** Implement a fully automated, pull-based deployment workflow using **ArgoCD** for managing the live application state.
--   [ ] **Observability:** Integrate a monitoring stack with **Prometheus** and **Grafana** to provide dashboards and alerts for application performance and system health.
+- [x] **Cloud Infrastructure:** Architected a secure, multi-tier AWS network using Terraform.
+- [x] **Kubernetes Migration:** Migrated workloads from local Docker Compose to a live K3s cluster on AWS.
+- [x] **GitOps Implementation:** Established a complete CI/CD pipeline bridging GitHub Actions and ArgoCD.
+- [x] **Performance Optimization:** Integrated Redis to implement distributed caching for high-speed reads.
+- [ ] **Core Logic Upgrade:** Implementing Base62 encoding for optimized unique ID generation and URL shortening.
+- [ ] **Observability:** Integrating Prometheus and Grafana for real-time metric visualization.
 
 ---
 
-## How to Run Locally
+## How to Run
+
+### Local Development (Docker)
+You can spin up the entire stack locally without touching the cloud.
 
 1.  Clone the repository:
     ```bash
     git clone [https://github.com/krishjj8/LinkHub.git](https://github.com/krishjj8/LinkHub.git)
     ```
-2.  Navigate into the project directory:
-    ```bash
-    cd LinkHub
-    ```
-3.  Ensure you have Docker and Docker Compose installed and running.
-4.  Build and run the application using Docker Compose. The `--build` flag will build the necessary images for the first time.
+2.  Start the environment (Apps + DB + Redis):
     ```bash
     docker compose up --build
     ```
-5.  The `link-service` API will then be available at `http://localhost:8080`.
+3.  Access the API at `http://localhost:8080`.
+
+### Cloud Deployment (Terraform)
+To provision the production environment on AWS:
+
+1.  Navigate to the infrastructure directory:
+    ```bash
+    cd infrastructure
+    ```
+2.  Initialize and apply the Terraform configuration:
+    ```bash
+    terraform init
+    terraform apply
+    ```
+3.  Once provisioned, the system will output the cluster IP and database endpoints required for the Kubernetes manifest configuration.
