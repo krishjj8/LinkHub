@@ -9,6 +9,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  data:
+    redis:
+      host: redis-service
+      port: 6379
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

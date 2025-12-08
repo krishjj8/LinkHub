@@ -8,6 +8,7 @@ import com.linkhub.linkservice.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.List;
+import org.springframework.cache.annotation.Cacheable;
 
 @Service
 public class UserService {
@@ -30,14 +31,13 @@ public class UserService {
                 .build();
         return userRepository.save(newuser);
     }
-    public User getUserById(Long id){
-        Optional<User> user= userRepository.findById(id);
-        if(user.isPresent()){
-            return user.get();
-        }
-        else{
-            throw new RuntimeException("User not found with id:" +id);
-        }
+    @Cacheable(value = "users", key = "#id")
+    public User getUserById(Long id) {
+
+        System.out.println("Fetching User " + id + " from Database...");
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id:" + id));
     }
 
     public User updateUser(Long id, UserUpdateRequestDto userUpdateRequestDto){
