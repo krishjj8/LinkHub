@@ -1,34 +1,29 @@
 package com.linkhub.linkservice.model;
 
-
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.io.Serializable; // <--- Import this
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name="links")
-public class Link {
+public class Link implements Serializable { // <--- MUST implement Serializable
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title; //
-
-    @Column(nullable = false)
+    private String title;
     private String url;
 
-
+    // This creates the Foreign Key (user_id) in the database
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude // Stop the loop here too
     private User user;
-
-
 }

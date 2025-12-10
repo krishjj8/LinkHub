@@ -1,15 +1,12 @@
 package com.linkhub.linkservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
+@Getter // Replaces @Data (Safe)
+@Setter // Replaces @Data (Safe)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,11 +14,12 @@ import java.util.List;
 @Table(name="users")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -30,7 +28,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user" , cascade= CascadeType.ALL, fetch=FetchType.LAZY)
+    // @ToString.Exclude prevents the Infinite Loop!
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Link> links;
-
 }
