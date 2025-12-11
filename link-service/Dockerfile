@@ -12,6 +12,8 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
+RUN apk update && apk upgrade
+
 # SECURITY BEST PRACTICE: Create a non-root user
 RUN addgroup -S spring && adduser -S spring -G spring
 
