@@ -49,17 +49,17 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
       # --- STEP 2: SECURITY SCAN (The Gatekeeper) ---
-      - name: Run Trivy Vulnerability Scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          # Scan the image we just built
-          image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-          format: 'table'
-          exit-code: '1'       # 1 = Fail the build if vulnerabilities are found
-          ignore-unfixed: true # Don't block us on bugs that have no patch yet
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH' # Only stop us for BIG problems
-
+      - name: Install and Run Trivy
+        run : |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b . v0.57.1
+          ./trivy image \
+                    --format table \
+                    --exit-code 1 \
+                    --severity CRITICAL,HIGH \
+                    --ignore-unfixed \
+                    --vuln-type os,library \
+                    ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+        
 
       # --- STEP 3: PUSH (Only runs if Scan passes) ---
       - name: Push Docker Image
