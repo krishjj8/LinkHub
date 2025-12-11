@@ -50,7 +50,7 @@ jobs:
 
       # --- STEP 2: SECURITY SCAN (The Gatekeeper) ---
       - name: Run Trivy Vulnerability Scanner
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           # Scan the image we just built
           image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
@@ -59,7 +59,7 @@ jobs:
           ignore-unfixed: true # Don't block us on bugs that have no patch yet
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH' # Only stop us for BIG problems
-          trivy-version: 'latest'
+
 
       # --- STEP 3: PUSH (Only runs if Scan passes) ---
       - name: Push Docker Image
