@@ -1,0 +1,43 @@
+# 1. Deployment: The actual Frontend Pods
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkhub-frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: linkhub-frontend
+  template:
+    metadata:
+      labels:
+        app: linkhub-frontend
+    spec:
+      imagePullSecrets:
+      - name: ecr-cred
+      containers:
+      - name: linkhub-frontend
+        # This matches the image you just pushed
+        image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/linkhub-frontend:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
+
+---
+
+# 2. Service: The "Door" to the outside world
+apiVersion: v1
+kind: Service
+metadata:
+  name: linkhub-frontend
+spec:
+  type: LoadBalancer # <--- This requests a Public IP from AWS
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: linkhub-frontend

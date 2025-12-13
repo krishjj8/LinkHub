@@ -2,16 +2,27 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: linkhub-ingress
-
 spec:
   ingressClassName: traefik
   rules:
     - http:
         paths:
+          # RULE 1: API TRAFFIC (This must be here!)
+          # Sends /api requests to the Java Backend (Port 8080)
           - path: /api
             pathType: Prefix
             backend:
               service:
                 name: link-service
+                port:
+                  number: 80
+
+          # RULE 2: WEBSITE TRAFFIC
+          # Sends everything else to the Frontend (Port 80)
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: linkhub-frontend
                 port:
                   number: 80
