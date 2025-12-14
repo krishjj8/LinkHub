@@ -18,7 +18,7 @@ spec:
       containers:
       - name: linkhub-frontend
         # This matches the image you just pushed
-        image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/linkhub-frontend:latest
+        image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/linkhub-frontend:f2e2ceb6064872b21101be7ace89bc8945a75695
         imagePullPolicy: Always
         ports:
         - containerPort: 80
