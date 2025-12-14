@@ -18,7 +18,6 @@
         }
 
         /* FUTURISTIC DARK BACKGROUND */
-        /* dark */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
@@ -168,6 +167,16 @@
         #toast { visibility: hidden; min-width: 250px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); font-family: 'Inter', sans-serif; border: 1px solid var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         #toast.show { visibility: visible; animation: popin 0.5s, fadeout 0.5s 2.5s; }
         @keyframes popin { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content { max-width: 400px; }
+        #modal-title { margin-top: 0; color: var(--accent); font-family: 'Poppins', sans-serif; }
     </style>
 </head>
 <body>
@@ -176,8 +185,8 @@
     <div id="login-screen">
         <h1 class="logo">LinkHub</h1>
         <p>Your digital universe, one link at a time.</p>
-        <input type="text" id="usernameInput" placeholder="Enter Username (e.g. arjun)">
-        <button onclick="handleLogin()">Launch Profile 🚀</button>
+        <input type="text" id="usernameInput" placeholder="Enter Username">
+        <button onclick="handleLogin()">Launch Profile</button>
     </div>
 
     <div id="dashboard-screen" style="display:none;">
@@ -189,7 +198,7 @@
         </div>
 
         <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border);">
-            <h3 style="margin:0 0 15px 0; font-family: 'Poppins', sans-serif; color: var(--accent); font-size: 1.1em;" id="formTitle">➕ Add New Link</h3>
+            <h3 style="margin:0 0 15px 0; font-family: 'Poppins', sans-serif; color: var(--accent); font-size: 1.1em;" id="formTitle">Add New Link</h3>
             <input type="hidden" id="editLinkId">
             <input type="text" id="linkTitle" placeholder="Title (e.g. My Portfolio)">
             <input type="url" id="linkUrl" placeholder="URL (e.g. https://portfolio.com)">
@@ -205,13 +214,46 @@
 
 <div id="toast">Message</div>
 
-<script>
-    // ... (THIS JAVASCRIPT PART IS EXACTLY THE SAME AS BEFORE) ...
-    // ... (Copy the SCRIPT content from the previous version) ...
-    // ... (I will paste the full script block below for easy copy-paste) ...
+<div id="custom-modal" class="modal-overlay">
+    <div class="modal-content container">
+        <h3 id="modal-title">Confirmation</h3>
+        <p id="modal-message" style="margin-bottom: 25px; color: #e2e8f0;">Are you sure?</p>
+        <div style="display:flex; gap:10px; justify-content: flex-end;">
+            <button id="modal-cancel-btn" class="secondary" style="width: auto; padding: 8px 24px; font-size: 0.9rem; margin-top: 0;">Cancel</button>
+            <button id="modal-confirm-btn" style="width: auto; padding: 8px 24px; font-size: 0.9rem; margin-top: 0;">Confirm</button>
+        </div>
+    </div>
+</div>
 
+<script>
     let CURRENT_USER = null;
     const API_BASE = "/api/v1";
+
+    // --- MODAL FUNCTIONALITY ---
+    function showModal(title, message, confirmText = "Confirm") {
+        const modal = document.getElementById('custom-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const confirmBtn = document.getElementById('modal-confirm-btn');
+        const cancelBtn = document.getElementById('modal-cancel-btn');
+
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        confirmBtn.textContent = confirmText;
+        modal.classList.add('show');
+
+        return new Promise((resolve) => {
+            const close = (result) => {
+                modal.classList.remove('show');
+                confirmBtn.onclick = null;
+                cancelBtn.onclick = null;
+                resolve(result);
+            };
+
+            confirmBtn.onclick = () => close(true);
+            cancelBtn.onclick = () => close(false);
+        });
+    }
 
     async function handleLogin() {
         const username = document.getElementById('usernameInput').value.trim();
@@ -229,13 +271,20 @@
                 showToast(`Welcome back, ${CURRENT_USER.username}!`);
                 loadDashboard();
             } else {
-                if(confirm(`User '${username}' is new. Create account?`)) {
+                // Use custom modal instead of browser confirm
+                const confirmed = await showModal(
+                    "Create Account?",
+                    `User '${username}' is new. Would you like to create a new profile?`,
+                    "Create Profile"
+                );
+                if(confirmed) {
                     await registerUser(username, HIDDEN_PASSWORD);
                 }
             }
         } catch (err) {
             console.error(err);
-            showToast("Connection Error 💥");
+            // Removed emoji
+            showToast("Connection Error.");
         }
     }
 
@@ -249,7 +298,8 @@
 
             if (res.ok) {
                 CURRENT_USER = await res.json();
-                showToast("Account Created! 🚀");
+                // Removed emoji
+                showToast("Account Created!");
                 loadDashboard();
             } else {
                 showToast("Name taken or invalid.");
@@ -304,7 +354,7 @@
                 `;
                 list.appendChild(card);
             });
-        } catch (err) { list.innerHTML = '<p style="color:red">Signal Lost 📡</p>'; }
+        } catch (err) { list.innerHTML = '<p style="color:red">Signal Lost.</p>'; } // Removed emoji
     }
 
     async function saveLink() {
@@ -338,7 +388,14 @@
     }
 
     async function deleteLink(linkId) {
-        if(!confirm("Are you sure?")) return;
+        // Use custom modal instead of browser confirm
+        const confirmed = await showModal(
+            "Delete Link?",
+            "Are you sure you want to remove this link? This action cannot be undone.",
+            "Delete"
+        );
+        if(!confirmed) return;
+
         try {
             const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links/${linkId}`, { method: 'DELETE' });
             if (res.ok) { showToast("Deleted."); fetchLinks(); }
@@ -346,7 +403,8 @@
     }
 
     function startEdit(id, title, url) {
-        document.getElementById('formTitle').textContent = "✏️ Edit Link";
+        // Removed emoji
+        document.getElementById('formTitle').textContent = "Edit Link";
         document.getElementById('saveBtn').textContent = "Update";
         document.getElementById('cancelBtn').style.display = "inline-block";
         document.getElementById('editLinkId').value = id;
@@ -355,7 +413,8 @@
     }
 
     function cancelEdit() {
-        document.getElementById('formTitle').textContent = "➕ Add New Link";
+        // Removed emoji
+        document.getElementById('formTitle').textContent = "Add New Link";
         document.getElementById('saveBtn').textContent = "Save Link";
         document.getElementById('cancelBtn').style.display = "none";
         document.getElementById('editLinkId').value = '';
