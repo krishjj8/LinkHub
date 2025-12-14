@@ -1,0 +1,74 @@
+name: Deploy Frontend (GitOps)
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'frontend/**'  # Only trigger when UI code changes
+
+permissions:
+  contents: write # Needed to update the k8s manifest
+
+jobs:
+  build-push-update:
+    runs-on: ubuntu-latest
+    env:
+      ECR_REPOSITORY: linkhub-frontend
+      IMAGE_TAG: ${{ github.sha }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # --- STEP 1: BUILD (But don't push yet) ---
+      - name: Build Docker Image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        working-directory: frontend
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+      # --- STEP 2: SECURITY SCAN (Trivy) ---
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ steps.login-ecr.outputs.registry }}/linkhub-frontend:${{ env.IMAGE_TAG }}'
+          format: 'table'
+          exit-code: '0' # Warning only (Change to 1 to block build)
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      # --- STEP 3: PUSH (Only runs if Scan passes) ---
+      - name: Push Docker Image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        working-directory: frontend
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          # Save full URI for the next step
+          echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      # --- STEP 4: UPDATE K8S MANIFEST (GitOps) ---
+      - name: Update Kubernetes Manifest
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+
+          # Update the frontend YAML file with the new Image ID
+          sed -i "s|image: .*|image: ${{ env.IMAGE_URI }}|g" k8s/linkhub-frontend.yaml
+          
+          git add k8s/linkhub-frontend.yaml
+          git commit -m "Deploy Frontend: Update image to ${{ github.sha }}"
+          git push
