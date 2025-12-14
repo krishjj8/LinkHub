@@ -67,7 +67,7 @@ jobs:
           git config --global user.email 'actions@github.com'
 
           # Update the frontend YAML file with the new Image ID
-          sed -i "s|image: .*|image: ${{ env.IMAGE_URI }}|g" k8s/linkhub-frontend.yaml
+          sed -i "s|image: .*|image: ${{ env.IMAGE_URI }}|g" k8s/frontend-deployment.yaml
           
           git add k8s/linkhub-frontend.yaml
           git commit -m "Deploy Frontend: Update image to ${{ github.sha }}"
