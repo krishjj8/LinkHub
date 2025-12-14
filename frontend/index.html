@@ -3,329 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkHub - Space Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <title>LinkHub - Pro Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <style>
-        :root { 
-            --primary: #ff5e00; /* Red-Orange */
-            --accent: #00d2ff;  /* Cyan */
-            --bg-dark: #0a0a0a; 
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --border-grey: #888;
+        :root {
+            --primary: #ff5e00;
+            --accent: #00d2ff;
+            --bg-dark: #0f172a; /* Deep Navy Blue */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #e2e8f0;
         }
 
-        /* SPACE BACKGROUND WITH STARS */
-        body { 
-            font-family: 'Fredoka', sans-serif; /* Cartoonish body font */
+        /* FUTURISTIC DARK BACKGROUND */
+        body {
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-            background-size: 550px 550px, 350px 350px, 250px 250px;
-            background-position: 0 0, 40px 60px, 130px 270px;
-            color: #333; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh; 
-        }
-        
-        .container { 
-            width: 100%; 
-            max-width: 500px; 
-            background: var(--card-bg); 
-            padding: 30px; 
-            border-radius: 25px; /* Rounder corners for cartoon look */
-            box-shadow: 0 10px 30px rgba(0,210,255,0.2); /* Glowing shadow */
-            transition: all 0.3s ease; 
-            border: 4px solid #333; /* Cartoon outline */
+            /* Subtle Mesh Gradient */
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 94, 0, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 210, 255, 0.15) 0px, transparent 50%);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        /* THE CARTOON TITLE STYLE */
-        h1.logo { 
-            font-family: 'Chewy', cursive;
-            font-size: 4em;
-            margin: 10px 0 20px 0; 
+        .container {
+            width: 100%;
+            max-width: 480px;
+            /* Glassmorphism Effect */
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover { transform: translateY(-5px); }
+
+        /* PROFESSIONAL LOGO */
+        h1.logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 3em;
+            margin: 0 0 10px 0;
             text-align: center;
-            color: var(--primary); /* Red-Orange Fill */
-            /* Greyish Border Effect */
-            -webkit-text-stroke: 2px var(--border-grey); 
-            text-shadow: 4px 4px 0px #000; /* Hard shadow for pop */
-            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
 
-        p { font-size: 1.1em; text-align: center; margin-bottom: 20px; font-weight: 600; color: #555; }
+        p {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
 
-        /* INPUTS & BUTTONS */
-        input { 
-            width: 100%; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border: 3px solid #333; 
-            border-radius: 12px; 
-            box-sizing: border-box; 
-            font-size: 18px; 
-            font-family: 'Fredoka', sans-serif;
-            background: #fff;
+        /* MODERN INPUTS */
+        input {
+            width: 100%;
+            padding: 16px;
+            margin: 10px 0;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            transition: all 0.2s;
         }
-        input:focus { border-color: var(--accent); outline: none; background: #f0fbff; }
-        
-        button { 
-            width: 100%; 
-            padding: 15px; 
-            margin-top: 15px; 
-            background: var(--accent); 
-            color: #000; 
-            border: 3px solid #000; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-size: 20px; 
-            font-family: 'Chewy', cursive; 
-            letter-spacing: 1px;
-            transition: 0.1s; 
-            box-shadow: 4px 4px 0px #000; /* Cartoon 3D button */
+        input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
         }
-        button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
-        button.secondary { background: #eee; }
-        button.danger { background: #ff4d4d; color: white; }
+
+        /* MODERN BUTTONS */
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, var(--primary), #ff9100);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            transition: transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 94, 0, 0.3);
+        }
+        button:hover { box-shadow: 0 6px 20px rgba(255, 94, 0, 0.4); transform: translateY(-1px); }
+        button:active { transform: translateY(1px); }
+
+        button.secondary {
+            background: transparent;
+            border: 1px solid #475569;
+            box-shadow: none;
+            color: #94a3b8;
+        }
+        button.secondary:hover { border-color: #94a3b8; color: white; }
 
         /* LINK CARDS */
-        .link-card { 
-            background: white; 
-            border: 3px solid #333; 
-            margin: 15px 0; 
-            border-radius: 15px; 
-            padding: 15px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1); 
+        .link-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            margin: 15px 0;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
         }
-        
-        .link-info { flex-grow: 1; text-align: left; padding-right: 10px; overflow: hidden; }
-        .link-title { font-weight: bold; font-size: 1.3em; color: #333; text-decoration: none; display: block; font-family: 'Chewy', cursive; }
-        .link-url { font-size: 0.9em; color: #888; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block; }
-        
-        .actions { display: flex; gap: 8px; }
-        .icon-btn { 
-            width: 40px; height: 40px; border-radius: 50%; border: 2px solid #333; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; 
-            color: #333; margin: 0; padding: 0; box-shadow: 2px 2px 0px #000;
+        .link-card:hover { background: rgba(255, 255, 255, 0.08); }
+
+        .link-info { flex-grow: 1; text-align: left; padding-right: 15px; overflow: hidden; }
+        .link-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #f1f5f9;
+            text-decoration: none;
+            display: block;
+            font-family: 'Poppins', sans-serif;
         }
-        .btn-edit { background: #ffd700; } /* Yellow */
-        .btn-delete { background: #ff4d4d; color: white; } /* Red */
+        .link-url {
+            font-size: 0.85em;
+            color: #64748b;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .actions { display: flex; gap: 10px; }
+        .icon-btn {
+            width: 36px; height: 36px; border-radius: 10px; border: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: white; margin: 0; padding: 0; box-shadow: none;
+        }
+        .btn-edit { background: rgba(0, 210, 255, 0.15); color: var(--accent); }
+        .btn-edit:hover { background: var(--accent); color: #000; }
+
+        .btn-delete { background: rgba(255, 77, 77, 0.15); color: #ff4d4d; }
+        .btn-delete:hover { background: #ff4d4d; color: white; }
 
         /* TOAST */
-        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 1; left: 50%; bottom: 30px; transform: translateX(-50%); font-family: 'Fredoka', sans-serif; border: 2px solid white; }
+        #toast { visibility: hidden; min-width: 250px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); font-family: 'Inter', sans-serif; border: 1px solid var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         #toast.show { visibility: visible; animation: popin 0.5s, fadeout 0.5s 2.5s; }
         @keyframes popin { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="login-screen">
-            <h1 class="logo">LinkHub</h1>
-            <p> Enter any name to visit their planet!</p>
-            <input type="text" id="usernameInput" placeholder="Enter Username (e.g. arjun)">
-            <button onclick="handleLogin()">Go to Profile </button>
-        </div>
-
-        <div id="dashboard-screen" style="display:none;">
-            <div style="text-align:center; border-bottom: 2px dashed #ccc; padding-bottom: 15px; margin-bottom: 15px;">
-                <h1 class="logo" style="font-size: 2.5em; margin:0;">LinkHub</h1>
-                <span id="displayUsername" style="background: #333; color: white; padding: 5px 15px; border-radius: 20px; font-size: 1.1em;">@user</span>
-                <br><br>
-                <button class="secondary" onclick="logout()" style="width: auto; padding: 8px 20px; font-size: 1rem;">Exit</button>
-            </div>
-
-            <div style="background: #e0f7fa; padding: 20px; border-radius: 15px; border: 3px solid #333;">
-                <h3 style="margin:0 0 10px 0; font-family: 'Chewy', cursive; color: #00838f;" id="formTitle">➕ Add New Link</h3>
-                <input type="hidden" id="editLinkId">
-                <input type="text" id="linkTitle" placeholder="Link Title (e.g. My Instagram)">
-                <input type="url" id="linkUrl" placeholder="Link URL (e.g. https://instagram.com)">
-                <div style="display:flex; gap:10px;">
-                    <button onclick="saveLink()" id="saveBtn">Add It!</button>
-                    <button onclick="cancelEdit()" id="cancelBtn" class="secondary" style="display:none; background:#ccc;">Cancel</button>
-                </div>
-            </div>
-
-            <div id="links-list" style="margin-top: 25px;"></div>
-        </div>
+<div class="container">
+    <div id="login-screen">
+        <h1 class="logo">LinkHub</h1>
+        <p>Your digital universe, one link at a time.</p>
+        <input type="text" id="usernameInput" placeholder="Enter Username (e.g. arjun)">
+        <button onclick="handleLogin()">Launch Profile 🚀</button>
     </div>
 
-    <div id="toast">Message</div>
+    <div id="dashboard-screen" style="display:none;">
+        <div style="text-align:center; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; margin-bottom: 20px;">
+            <h1 class="logo" style="font-size: 2em; margin:0;">LinkHub</h1>
+            <span id="displayUsername" style="background: rgba(255,255,255,0.1); color: #94a3b8; padding: 6px 16px; border-radius: 20px; font-size: 0.9em; letter-spacing: 0.5px;">@user</span>
+            <br><br>
+            <button class="secondary" onclick="logout()" style="width: auto; padding: 8px 24px; font-size: 0.9rem; margin-top: 10px;">Log Out</button>
+        </div>
 
-    <script>
-        let CURRENT_USER = null; 
-        const API_BASE = "/api/v1";
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border);">
+            <h3 style="margin:0 0 15px 0; font-family: 'Poppins', sans-serif; color: var(--accent); font-size: 1.1em;" id="formTitle">➕ Add New Link</h3>
+            <input type="hidden" id="editLinkId">
+            <input type="text" id="linkTitle" placeholder="Title (e.g. My Portfolio)">
+            <input type="url" id="linkUrl" placeholder="URL (e.g. https://portfolio.com)">
+            <div style="display:flex; gap:10px;">
+                <button onclick="saveLink()" id="saveBtn">Save Link</button>
+                <button onclick="cancelEdit()" id="cancelBtn" class="secondary" style="display:none;">Cancel</button>
+            </div>
+        </div>
 
-        // --- AUTH (SIMPLIFIED: No Password UI) ---
-        async function handleLogin() {
-            const username = document.getElementById('usernameInput').value.trim();
-            // HIDDEN PASSWORD: We send this automatically so the backend doesn't crash.
-            const HIDDEN_PASSWORD = "public_access_123"; 
+        <div id="links-list" style="margin-top: 25px;"></div>
+    </div>
+</div>
 
-            if(!username) return showToast("Please enter a name!");
+<div id="toast">Message</div>
 
-            try {
-                // 1. Check if user exists
-                const res = await fetch(`${API_BASE}/users`);
-                const users = await res.json();
-                const foundUser = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+<script>
+    // ... (THIS JAVASCRIPT PART IS EXACTLY THE SAME AS BEFORE) ...
+    // ... (Copy the SCRIPT content from the previous version) ...
+    // ... (I will paste the full script block below for easy copy-paste) ...
 
-                if (foundUser) {
-                    CURRENT_USER = foundUser;
-                    showToast(`Entering orbit of ${CURRENT_USER.username}! 🪐`);
-                    loadDashboard();
-                } else {
-                    // 2. Auto-Create if new (Using hidden password)
-                    if(confirm(`User '${username}' is new. Create this planet? 🌍`)) {
-                        await registerUser(username, HIDDEN_PASSWORD);
-                    }
+    let CURRENT_USER = null;
+    const API_BASE = "/api/v1";
+
+    async function handleLogin() {
+        const username = document.getElementById('usernameInput').value.trim();
+        const HIDDEN_PASSWORD = "public_access_123";
+
+        if(!username) return showToast("Please enter a name!");
+
+        try {
+            const res = await fetch(`${API_BASE}/users`);
+            const users = await res.json();
+            const foundUser = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+
+            if (foundUser) {
+                CURRENT_USER = foundUser;
+                showToast(`Welcome back, ${CURRENT_USER.username}!`);
+                loadDashboard();
+            } else {
+                if(confirm(`User '${username}' is new. Create account?`)) {
+                    await registerUser(username, HIDDEN_PASSWORD);
                 }
-            } catch (err) {
-                console.error(err);
-                showToast("Connection Error 💥");
             }
+        } catch (err) {
+            console.error(err);
+            showToast("Connection Error 💥");
         }
+    }
 
-        async function registerUser(username, password) {
-            try {
-                const res = await fetch(`${API_BASE}/users`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, email: `${username}@linkhub.com`, password })
-                });
+    async function registerUser(username, password) {
+        try {
+            const res = await fetch(`${API_BASE}/users`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email: `${username}@linkhub.com`, password })
+            });
 
-                if (res.ok) {
-                    CURRENT_USER = await res.json();
-                    showToast("Planet Created! 🚀");
-                    loadDashboard();
-                } else {
-                    showToast("Name taken or invalid. Try another.");
-                }
-            } catch (err) { showToast("Registration Failed."); }
-        }
+            if (res.ok) {
+                CURRENT_USER = await res.json();
+                showToast("Account Created! 🚀");
+                loadDashboard();
+            } else {
+                showToast("Name taken or invalid.");
+            }
+        } catch (err) { showToast("Registration Failed."); }
+    }
 
-        function logout() {
-            CURRENT_USER = null;
-            document.getElementById('dashboard-screen').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'block';
-            document.getElementById('usernameInput').value = '';
-        }
+    function logout() {
+        CURRENT_USER = null;
+        document.getElementById('dashboard-screen').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'block';
+        document.getElementById('usernameInput').value = '';
+    }
 
-        function loadDashboard() {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard-screen').style.display = 'block';
-            document.getElementById('displayUsername').textContent = `@${CURRENT_USER.username}`;
-            fetchLinks();
-        }
+    function loadDashboard() {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard-screen').style.display = 'block';
+        document.getElementById('displayUsername').textContent = `@${CURRENT_USER.username}`;
+        fetchLinks();
+    }
 
-        // --- LINKS CRUD ---
-        async function fetchLinks() {
-            const list = document.getElementById('links-list');
-            list.innerHTML = '<p>🔭 Scanning for links...</p>';
+    async function fetchLinks() {
+        const list = document.getElementById('links-list');
+        list.innerHTML = '<p style="color:#94a3b8">Syncing data...</p>';
 
-            try {
-                const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links`);
-                const links = await res.json();
-                list.innerHTML = ''; 
+        try {
+            const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links`);
+            const links = await res.json();
+            list.innerHTML = '';
 
-                if (links.length === 0) {
-                    list.innerHTML = '<p>No links here yet. It\'s empty space! 🌑</p>';
-                    return;
-                }
-
-                links.forEach(link => {
-                    const card = document.createElement('div');
-                    card.className = 'link-card';
-                    card.innerHTML = `
-                        <div class="link-info">
-                            <a href="${link.url}" target="_blank" class="link-title">${link.title}</a>
-                            <span class="link-url">${link.url}</span>
-                        </div>
-                        <div class="actions">
-                            <button class="icon-btn btn-edit" onclick="startEdit(${link.id}, '${link.title}', '${link.url}')">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="icon-btn btn-delete" onclick="deleteLink(${link.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                    list.appendChild(card);
-                });
-            } catch (err) { list.innerHTML = '<p style="color:red">Signal Lost 📡</p>'; }
-        }
-
-        async function saveLink() {
-            const title = document.getElementById('linkTitle').value;
-            const url = document.getElementById('linkUrl').value;
-            const editId = document.getElementById('editLinkId').value;
-
-            if (!title || !url) return showToast("Fill in both fields! 📝");
-
-            const payload = { title, url };
-            let apiUrl = `${API_BASE}/users/${CURRENT_USER.id}/links`;
-            let method = 'POST';
-
-            if (editId) {
-                apiUrl += `/${editId}`;
-                method = 'PUT';
+            if (links.length === 0) {
+                list.innerHTML = '<p style="color:#94a3b8">No links found. Add your first one!</p>';
+                return;
             }
 
-            try {
-                const res = await fetch(apiUrl, {
-                    method: method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (res.ok) {
-                    showToast(editId ? "Link Updated! ✨" : "Link Added! 🚀");
-                    cancelEdit();
-                    fetchLinks();
-                } else { showToast("Error saving link."); }
-            } catch (err) { console.error(err); }
+            links.forEach(link => {
+                const card = document.createElement('div');
+                card.className = 'link-card';
+                card.innerHTML = `
+                    <div class="link-info">
+                        <a href="${link.url}" target="_blank" class="link-title">${link.title}</a>
+                        <span class="link-url">${link.url}</span>
+                    </div>
+                    <div class="actions">
+                        <button class="icon-btn btn-edit" onclick="startEdit(${link.id}, '${link.title}', '${link.url}')">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="icon-btn btn-delete" onclick="deleteLink(${link.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        } catch (err) { list.innerHTML = '<p style="color:red">Signal Lost 📡</p>'; }
+    }
+
+    async function saveLink() {
+        const title = document.getElementById('linkTitle').value;
+        const url = document.getElementById('linkUrl').value;
+        const editId = document.getElementById('editLinkId').value;
+
+        if (!title || !url) return showToast("Please fill in all fields.");
+
+        const payload = { title, url };
+        let apiUrl = `${API_BASE}/users/${CURRENT_USER.id}/links`;
+        let method = 'POST';
+
+        if (editId) {
+            apiUrl += `/${editId}`;
+            method = 'PUT';
         }
 
-        async function deleteLink(linkId) {
-            if(!confirm("Destroy this link? 💥")) return;
-            try {
-                const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links/${linkId}`, { method: 'DELETE' });
-                if (res.ok) { showToast("Link Destroyed 🗑️"); fetchLinks(); }
-            } catch (err) { console.error(err); }
-        }
+        try {
+            const res = await fetch(apiUrl, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+                showToast(editId ? "Link Updated!" : "Link Added!");
+                cancelEdit();
+                fetchLinks();
+            } else { showToast("Error saving link."); }
+        } catch (err) { console.error(err); }
+    }
 
-        function startEdit(id, title, url) {
-            document.getElementById('formTitle').textContent = "✏️ Edit Link";
-            document.getElementById('saveBtn').textContent = "Update";
-            document.getElementById('cancelBtn').style.display = "inline-block";
-            document.getElementById('editLinkId').value = id;
-            document.getElementById('linkTitle').value = title;
-            document.getElementById('linkUrl').value = url;
-        }
+    async function deleteLink(linkId) {
+        if(!confirm("Are you sure?")) return;
+        try {
+            const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links/${linkId}`, { method: 'DELETE' });
+            if (res.ok) { showToast("Deleted."); fetchLinks(); }
+        } catch (err) { console.error(err); }
+    }
 
-        function cancelEdit() {
-            document.getElementById('formTitle').textContent = "➕ Add New Link";
-            document.getElementById('saveBtn').textContent = "Add It!";
-            document.getElementById('cancelBtn').style.display = "none";
-            document.getElementById('editLinkId').value = '';
-            document.getElementById('linkTitle').value = '';
-            document.getElementById('linkUrl').value = '';
-        }
+    function startEdit(id, title, url) {
+        document.getElementById('formTitle').textContent = "✏️ Edit Link";
+        document.getElementById('saveBtn').textContent = "Update";
+        document.getElementById('cancelBtn').style.display = "inline-block";
+        document.getElementById('editLinkId').value = id;
+        document.getElementById('linkTitle').value = title;
+        document.getElementById('linkUrl').value = url;
+    }
 
-        function showToast(msg) {
-            const x = document.getElementById("toast");
-            x.textContent = msg;
-            x.className = "show";
-            setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
-        }
-    </script>
+    function cancelEdit() {
+        document.getElementById('formTitle').textContent = "➕ Add New Link";
+        document.getElementById('saveBtn').textContent = "Save Link";
+        document.getElementById('cancelBtn').style.display = "none";
+        document.getElementById('editLinkId').value = '';
+        document.getElementById('linkTitle').value = '';
+        document.getElementById('linkUrl').value = '';
+    }
+
+    function showToast(msg) {
+        const x = document.getElementById("toast");
+        x.textContent = msg;
+        x.className = "show";
+        setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
+    }
+</script>
 </body>
 </html>
