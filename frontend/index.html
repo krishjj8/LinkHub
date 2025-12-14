@@ -3,430 +3,612 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkHub - Pro Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>LinkHub | Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #ff5e00;
-            --accent: #00d2ff;
-            --bg-dark: #0f172a; /* Deep Navy Blue */
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-color: #e2e8f0;
+            /* Palette: Midnight & Neon */
+            --bg-deep: #050505;
+            --primary: #3b82f6;      /* Royal Blue */
+            --primary-glow: #60a5fa;
+            --accent: #8b5cf6;       /* Violet */
+            --glass-surface: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #10b981;
         }
 
-        /* FUTURISTIC DARK BACKGROUND */
+        * { box-sizing: border-box; outline: none; }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            /* Subtle Mesh Gradient */
-            background-image:
-                radial-gradient(at 0% 0%, rgba(255, 94, 0, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 210, 255, 0.15) 0px, transparent 50%);
-            color: var(--text-color);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            /* Animated Background */
+            background: radial-gradient(circle at top left, #1e1b4b, transparent 40%),
+                        radial-gradient(circle at bottom right, #312e81, transparent 40%),
+                        #020617;
+            background-size: 200% 200%;
+            animation: aurora 15s ease infinite;
+        }
+
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- THE CARD CONTAINER --- */
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            min-height: 600px;
+            background: var(--glass-surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            transition: height 0.3s ease;
         }
 
-        .container {
-            width: 100%;
-            max-width: 480px;
-            /* Glassmorphism Effect */
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
+        /* Subtle glow at top of card */
+        .app-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
         }
 
-        .container:hover { transform: translateY(-5px); }
-
-        /* PROFESSIONAL LOGO */
+        /* --- TYPOGRAPHY --- */
         h1.logo {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 3em;
-            margin: 0 0 10px 0;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin: 0 0 8px 0;
             text-align: center;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -1px;
         }
 
-        p {
-            font-size: 1rem;
+        p.subtitle {
             text-align: center;
-            margin-bottom: 30px;
-            color: #94a3b8;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 40px;
             font-weight: 400;
         }
 
-        /* MODERN INPUTS */
+        /* --- FORMS & INPUTS --- */
+        .input-group { position: relative; margin-bottom: 20px; }
+
         input {
             width: 100%;
-            padding: 16px;
-            margin: 10px 0;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            box-sizing: border-box;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--glass-border);
+            padding: 18px 20px;
+            border-radius: 14px;
             color: white;
-            transition: all 0.2s;
-        }
-        input:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
         }
 
-        /* MODERN BUTTONS */
-        button {
+        input:focus {
+            border-color: var(--primary);
+            background: rgba(0,0,0,0.4);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        input::placeholder { color: #475569; }
+
+        /* --- BUTTONS --- */
+        .btn-primary {
             width: 100%;
-            padding: 16px;
-            margin-top: 20px;
-            background: linear-gradient(90deg, var(--primary), #ff9100);
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
+            border-radius: 14px;
+            font-size: 1rem;
             font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: transform 0.1s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 94, 0, 0.3);
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-        button:hover { box-shadow: 0 6px 20px rgba(255, 94, 0, 0.4); transform: translateY(-1px); }
-        button:active { transform: translateY(1px); }
 
-        button.secondary {
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-secondary {
             background: transparent;
-            border: 1px solid #475569;
-            box-shadow: none;
-            color: #94a3b8;
-        }
-        button.secondary:hover { border-color: #94a3b8; color: white; }
-
-        /* LINK CARDS */
-        .link-card {
-            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--glass-border);
-            margin: 15px 0;
-            border-radius: 16px;
-            padding: 16px;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { border-color: var(--text-muted); color: white; }
+
+        /* --- DASHBOARD HEADER --- */
+        .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.2s;
-        }
-        .link-card:hover { background: rgba(255, 255, 255, 0.08); }
-
-        .link-info { flex-grow: 1; text-align: left; padding-right: 15px; overflow: hidden; }
-        .link-title {
-            font-weight: 600;
-            font-size: 1.1em;
-            color: #f1f5f9;
-            text-decoration: none;
-            display: block;
-            font-family: 'Poppins', sans-serif;
-        }
-        .link-url {
-            font-size: 0.85em;
-            color: #64748b;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            display: block;
-            margin-top: 4px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        .actions { display: flex; gap: 10px; }
-        .icon-btn {
-            width: 36px; height: 36px; border-radius: 10px; border: none;
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .user-avatar {
+            width: 24px; height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; font-weight: bold;
+        }
+
+        /* --- LINK CARD LIST --- */
+        .link-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .link-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .link-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateX(4px);
+        }
+
+        .link-content h3 {
+            margin: 0; font-size: 1rem; font-weight: 500; color: white;
+            font-family: 'Outfit', sans-serif;
+        }
+        .link-content a {
+            font-size: 0.8rem; color: var(--text-muted); text-decoration: none;
+            display: block; margin-top: 4px; max-width: 250px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        .link-actions { display: flex; gap: 8px; opacity: 0; transition: opacity 0.2s; }
+        .link-item:hover .link-actions { opacity: 1; }
+
+        .action-btn {
+            width: 32px; height: 32px; border-radius: 8px; border: none;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
-            color: white; margin: 0; padding: 0; box-shadow: none;
+            transition: all 0.2s; color: white;
         }
-        .btn-edit { background: rgba(0, 210, 255, 0.15); color: var(--accent); }
-        .btn-edit:hover { background: var(--accent); color: #000; }
+        .btn-edit { background: rgba(59, 130, 246, 0.1); color: var(--primary-glow); }
+        .btn-edit:hover { background: var(--primary); color: white; }
+        .btn-del { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .btn-del:hover { background: var(--danger); color: white; }
 
-        .btn-delete { background: rgba(255, 77, 77, 0.15); color: #ff4d4d; }
-        .btn-delete:hover { background: #ff4d4d; color: white; }
+        /* --- ADD FORM --- */
+        .add-form {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--glass-border);
+        }
 
-        /* TOAST */
-        #toast { visibility: hidden; min-width: 250px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); font-family: 'Inter', sans-serif; border: 1px solid var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #toast.show { visibility: visible; animation: popin 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes popin { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        /* --- SKELETON LOADER --- */
+        .skeleton {
+            height: 60px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .skeleton::after {
+            content: "";
+            position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0,
+                rgba(255, 255, 255, 0.05) 20%,
+                rgba(255, 255, 255, 0.1) 60%,
+                rgba(255, 255, 255, 0)
+            );
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
 
-        /* MODAL */
+        /* --- CUSTOM MODAL --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px);
-            display: none; justify-content: center; align-items: center; z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; transition: opacity 0.3s;
         }
-        .modal-overlay.show { display: flex; }
-        .modal-content { max-width: 400px; }
-        #modal-title { margin-top: 0; color: var(--accent); font-family: 'Poppins', sans-serif; }
+        .modal-overlay.show { display: flex; opacity: 1; }
+
+        .modal-box {
+            background: #0f172a;
+            border: 1px solid var(--glass-border);
+            width: 90%; max-width: 400px;
+            padding: 30px; border-radius: 20px;
+            text-align: center;
+            transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .modal-overlay.show .modal-box { transform: scale(1); }
+
+        .modal-title { font-family: 'Outfit'; font-size: 1.25rem; margin-bottom: 10px; color: white; }
+        .modal-desc { color: var(--text-muted); margin-bottom: 25px; line-height: 1.5; font-size: 0.95rem; }
+
+        .modal-actions { display: flex; gap: 10px; justify-content: center; }
+        .modal-btn { flex: 1; padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-cancel { background: #1e293b; color: white; }
+        .btn-confirm { background: var(--primary); color: white; }
+
+        /* --- TOAST --- */
+        #toast {
+            visibility: hidden; min-width: 300px;
+            background: #1e293b; color: white;
+            border: 1px solid var(--glass-border);
+            text-align: center; border-radius: 12px;
+            padding: 16px; position: fixed; z-index: 2000;
+            left: 50%; bottom: 30px; transform: translateX(-50%);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="login-screen">
-        <h1 class="logo">LinkHub</h1>
-        <p>Your digital universe, one link at a time.</p>
-        <input type="text" id="usernameInput" placeholder="Enter Username">
-        <button onclick="handleLogin()">Launch Profile</button>
-    </div>
+<div class="app-container">
 
-    <div id="dashboard-screen" style="display:none;">
-        <div style="text-align:center; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; margin-bottom: 20px;">
-            <h1 class="logo" style="font-size: 2em; margin:0;">LinkHub</h1>
-            <span id="displayUsername" style="background: rgba(255,255,255,0.1); color: #94a3b8; padding: 6px 16px; border-radius: 20px; font-size: 0.9em; letter-spacing: 0.5px;">@user</span>
-            <br><br>
-            <button class="secondary" onclick="logout()" style="width: auto; padding: 8px 24px; font-size: 0.9rem; margin-top: 10px;">Log Out</button>
+    <div id="login-view" class="fade-in">
+        <h1 class="logo">LinkHub</h1>
+        <p class="subtitle">Curate your digital presence.</p>
+
+        <div class="input-group">
+            <input type="text" id="usernameInput" placeholder="Enter your username">
         </div>
 
-        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 16px; border: 1px solid var(--glass-border);">
-            <h3 style="margin:0 0 15px 0; font-family: 'Poppins', sans-serif; color: var(--accent); font-size: 1.1em;" id="formTitle">Add New Link</h3>
+        <button class="btn-primary" onclick="handleLogin()">
+            <span>Launch Workspace</span>
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <div id="dashboard-view" class="hidden fade-in">
+        <div class="dashboard-header">
+            <div class="user-badge">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <span id="displayUsername" style="font-size: 0.9rem; font-weight: 500;">@username</span>
+            </div>
+            <button class="btn-secondary" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Sign Out
+            </button>
+        </div>
+
+        <div class="add-form">
+            <h4 style="margin: 0 0 15px 0; font-family: 'Outfit'; color: white;" id="formTitle">
+                <i class="fas fa-plus-circle" style="color:var(--primary)"></i> Add New Link
+            </h4>
             <input type="hidden" id="editLinkId">
-            <input type="text" id="linkTitle" placeholder="Title (e.g. My Portfolio)">
-            <input type="url" id="linkUrl" placeholder="URL (e.g. https://portfolio.com)">
+            <input type="text" id="linkTitle" placeholder="Title (e.g. Portfolio)" style="margin-bottom: 10px;">
+            <input type="url" id="linkUrl" placeholder="URL (e.g. https://site.com)" style="margin-bottom: 15px;">
+
             <div style="display:flex; gap:10px;">
-                <button onclick="saveLink()" id="saveBtn">Save Link</button>
-                <button onclick="cancelEdit()" id="cancelBtn" class="secondary" style="display:none;">Cancel</button>
+                <button class="btn-primary" onclick="saveLink()" id="saveBtn" style="padding: 12px;">Save Link</button>
+                <button class="btn-secondary hidden" onclick="cancelEdit()" id="cancelBtn" style="border: 1px solid #334155;">Cancel</button>
             </div>
         </div>
 
-        <div id="links-list" style="margin-top: 25px;"></div>
+        <div id="links-list" class="link-list">
+        </div>
     </div>
+
 </div>
 
-<div id="toast">Message</div>
-
-<div id="custom-modal" class="modal-overlay">
-    <div class="modal-content container">
-        <h3 id="modal-title">Confirmation</h3>
-        <p id="modal-message" style="margin-bottom: 25px; color: #e2e8f0;">Are you sure?</p>
-        <div style="display:flex; gap:10px; justify-content: flex-end;">
-            <button id="modal-cancel-btn" class="secondary" style="width: auto; padding: 8px 24px; font-size: 0.9rem; margin-top: 0;">Cancel</button>
-            <button id="modal-confirm-btn" style="width: auto; padding: 8px 24px; font-size: 0.9rem; margin-top: 0;">Confirm</button>
+<div id="modal-overlay" class="modal-overlay">
+    <div class="modal-box">
+        <div style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <h3 class="modal-title" id="modal-title">Title</h3>
+        <p class="modal-desc" id="modal-msg">Message goes here.</p>
+        <div class="modal-actions">
+            <button class="modal-btn btn-cancel" id="modal-cancel">Cancel</button>
+            <button class="modal-btn btn-confirm" id="modal-confirm">Confirm</button>
         </div>
     </div>
 </div>
 
+<div id="toast"><i class="fas fa-bell"></i> <span id="toast-msg">Notification</span></div>
+
 <script>
-    let CURRENT_USER = null;
+    // --- CONFIG ---
     const API_BASE = "/api/v1";
+    let CURRENT_USER = null;
 
-    // --- MODAL FUNCTIONALITY ---
-    function showModal(title, message, confirmText = "Confirm") {
-        const modal = document.getElementById('custom-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalMessage = document.getElementById('modal-message');
-        const confirmBtn = document.getElementById('modal-confirm-btn');
-        const cancelBtn = document.getElementById('modal-cancel-btn');
+    // --- DOM ELEMENTS ---
+    const views = {
+        login: document.getElementById('login-view'),
+        dashboard: document.getElementById('dashboard-view')
+    };
+    const listContainer = document.getElementById('links-list');
 
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        confirmBtn.textContent = confirmText;
-        modal.classList.add('show');
-
-        return new Promise((resolve) => {
-            const close = (result) => {
-                modal.classList.remove('show');
-                confirmBtn.onclick = null;
-                cancelBtn.onclick = null;
-                resolve(result);
-            };
-
-            confirmBtn.onclick = () => close(true);
-            cancelBtn.onclick = () => close(false);
-        });
-    }
-
+    // --- AUTH LOGIC ---
     async function handleLogin() {
         const username = document.getElementById('usernameInput').value.trim();
-        const HIDDEN_PASSWORD = "public_access_123";
-
-        if(!username) return showToast("Please enter a name!");
+        if(!username) return showToast("Please enter a username first.");
 
         try {
+            // Show loading state on button
+            const btn = document.querySelector('#login-view .btn-primary');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+
             const res = await fetch(`${API_BASE}/users`);
             const users = await res.json();
-            const foundUser = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+            const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
 
-            if (foundUser) {
-                CURRENT_USER = foundUser;
-                showToast(`Welcome back, ${CURRENT_USER.username}!`);
-                loadDashboard();
+            if (user) {
+                CURRENT_USER = user;
+                switchView('dashboard');
+                loadDashboardData();
+                showToast(`Welcome back, ${user.username}`);
             } else {
-                // Use custom modal instead of browser confirm
-                const confirmed = await showModal(
-                    "Create Account?",
-                    `User '${username}' is new. Would you like to create a new profile?`,
-                    "Create Profile"
+                const create = await showModal(
+                    "Account Not Found",
+                    `The user <b>@${username}</b> does not exist yet. Would you like to claim this handle?`
                 );
-                if(confirmed) {
-                    await registerUser(username, HIDDEN_PASSWORD);
-                }
+                if(create) await registerUser(username);
             }
+
+            // Reset button
+            btn.innerHTML = originalText;
         } catch (err) {
             console.error(err);
-            // Removed emoji
-            showToast("Connection Error.");
+            showToast("Server connection failed. Is the backend running?");
+            document.querySelector('#login-view .btn-primary').innerHTML = originalText;
         }
     }
 
-    async function registerUser(username, password) {
+    async function registerUser(username) {
         try {
             const res = await fetch(`${API_BASE}/users`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email: `${username}@linkhub.com`, password })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: username,
+                    email: `${username}@linkhub.dev`,
+                    password: "public_access_123"
+                })
             });
-
-            if (res.ok) {
+            if(res.ok) {
                 CURRENT_USER = await res.json();
-                // Removed emoji
-                showToast("Account Created!");
-                loadDashboard();
+                switchView('dashboard');
+                loadDashboardData();
+                showToast("Workspace created successfully.");
             } else {
-                showToast("Name taken or invalid.");
+                showToast("Username invalid or unavailable.");
             }
-        } catch (err) { showToast("Registration Failed."); }
+        } catch(e) { showToast("Registration error."); }
     }
 
     function logout() {
         CURRENT_USER = null;
-        document.getElementById('dashboard-screen').style.display = 'none';
-        document.getElementById('login-screen').style.display = 'block';
         document.getElementById('usernameInput').value = '';
+        switchView('login');
     }
 
-    function loadDashboard() {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('dashboard-screen').style.display = 'block';
-        document.getElementById('displayUsername').textContent = `@${CURRENT_USER.username}`;
-        fetchLinks();
+    // --- DASHBOARD LOGIC ---
+    function switchView(viewName) {
+        if(viewName === 'dashboard') {
+            views.login.classList.add('hidden');
+            views.dashboard.classList.remove('hidden');
+            document.getElementById('displayUsername').textContent = `@${CURRENT_USER.username}`;
+        } else {
+            views.dashboard.classList.add('hidden');
+            views.login.classList.remove('hidden');
+        }
     }
 
-    async function fetchLinks() {
-        const list = document.getElementById('links-list');
-        list.innerHTML = '<p style="color:#94a3b8">Syncing data...</p>';
+    async function loadDashboardData() {
+        // 1. Render Skeleton Loader
+        listContainer.innerHTML = `
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        `;
 
         try {
+            // Artificial delay to show off the skeleton (remove in prod if you want)
+            await new Promise(r => setTimeout(r, 600));
+
             const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links`);
             const links = await res.json();
-            list.innerHTML = '';
-
-            if (links.length === 0) {
-                list.innerHTML = '<p style="color:#94a3b8">No links found. Add your first one!</p>';
-                return;
-            }
-
-            links.forEach(link => {
-                const card = document.createElement('div');
-                card.className = 'link-card';
-                card.innerHTML = `
-                    <div class="link-info">
-                        <a href="${link.url}" target="_blank" class="link-title">${link.title}</a>
-                        <span class="link-url">${link.url}</span>
-                    </div>
-                    <div class="actions">
-                        <button class="icon-btn btn-edit" onclick="startEdit(${link.id}, '${link.title}', '${link.url}')">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                        <button class="icon-btn btn-delete" onclick="deleteLink(${link.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
-        } catch (err) { list.innerHTML = '<p style="color:red">Signal Lost.</p>'; } // Removed emoji
+            renderLinks(links);
+        } catch (err) {
+            listContainer.innerHTML = `<div style="text-align:center; color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> Failed to load links</div>`;
+        }
     }
 
+    function renderLinks(links) {
+        listContainer.innerHTML = '';
+        if(links.length === 0) {
+            listContainer.innerHTML = `
+                <div style="text-align:center; padding: 40px; color: var(--text-muted);">
+                    <i class="fas fa-wind" style="font-size: 2rem; margin-bottom: 10px; display:block;"></i>
+                    It's quiet here. Add your first link above.
+                </div>
+            `;
+            return;
+        }
+
+        links.forEach(link => {
+            const item = document.createElement('div');
+            item.className = 'link-item fade-in';
+            item.innerHTML = `
+                <div class="link-content">
+                    <h3>${link.title}</h3>
+                    <a href="${link.url}" target="_blank">${link.url}</a>
+                </div>
+                <div class="link-actions">
+                    <button class="action-btn btn-edit" onclick="editLink(${link.id}, '${link.title}', '${link.url}')">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button class="action-btn btn-del" onclick="deleteLink(${link.id})">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `;
+            listContainer.appendChild(item);
+        });
+    }
+
+    // --- CRUD OPERATIONS ---
     async function saveLink() {
         const title = document.getElementById('linkTitle').value;
         const url = document.getElementById('linkUrl').value;
-        const editId = document.getElementById('editLinkId').value;
+        const id = document.getElementById('editLinkId').value;
 
-        if (!title || !url) return showToast("Please fill in all fields.");
+        if(!title || !url) return showToast("Please fill in both fields.");
 
-        const payload = { title, url };
-        let apiUrl = `${API_BASE}/users/${CURRENT_USER.id}/links`;
-        let method = 'POST';
-
-        if (editId) {
-            apiUrl += `/${editId}`;
-            method = 'PUT';
-        }
+        const method = id ? 'PUT' : 'POST';
+        const endpoint = id ? `/${id}` : '';
 
         try {
-            const res = await fetch(apiUrl, {
+            const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links${endpoint}`, {
                 method: method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ title, url })
             });
-            if (res.ok) {
-                showToast(editId ? "Link Updated!" : "Link Added!");
+
+            if(res.ok) {
+                showToast(id ? "Link updated." : "Link added to profile.");
                 cancelEdit();
-                fetchLinks();
-            } else { showToast("Error saving link."); }
-        } catch (err) { console.error(err); }
+                loadDashboardData();
+            }
+        } catch(e) { showToast("Error saving data."); }
     }
 
-    async function deleteLink(linkId) {
-        // Use custom modal instead of browser confirm
-        const confirmed = await showModal(
-            "Delete Link?",
-            "Are you sure you want to remove this link? This action cannot be undone.",
-            "Delete"
-        );
-        if(!confirmed) return;
-
-        try {
-            const res = await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links/${linkId}`, { method: 'DELETE' });
-            if (res.ok) { showToast("Deleted."); fetchLinks(); }
-        } catch (err) { console.error(err); }
+    async function deleteLink(id) {
+        const confirm = await showModal("Delete Link", "Are you sure you want to remove this link? This cannot be undone.");
+        if(confirm) {
+            await fetch(`${API_BASE}/users/${CURRENT_USER.id}/links/${id}`, { method: 'DELETE' });
+            showToast("Link removed.");
+            loadDashboardData();
+        }
     }
 
-    function startEdit(id, title, url) {
-        // Removed emoji
-        document.getElementById('formTitle').textContent = "Edit Link";
-        document.getElementById('saveBtn').textContent = "Update";
-        document.getElementById('cancelBtn').style.display = "inline-block";
+    function editLink(id, title, url) {
+        document.getElementById('formTitle').innerHTML = '<i class="fas fa-edit" style="color:var(--accent)"></i> Edit Link';
         document.getElementById('editLinkId').value = id;
         document.getElementById('linkTitle').value = title;
         document.getElementById('linkUrl').value = url;
+        document.getElementById('saveBtn').textContent = "Update";
+        document.getElementById('cancelBtn').classList.remove('hidden');
     }
 
     function cancelEdit() {
-        // Removed emoji
-        document.getElementById('formTitle').textContent = "Add New Link";
-        document.getElementById('saveBtn').textContent = "Save Link";
-        document.getElementById('cancelBtn').style.display = "none";
+        document.getElementById('formTitle').innerHTML = '<i class="fas fa-plus-circle" style="color:var(--primary)"></i> Add New Link';
         document.getElementById('editLinkId').value = '';
         document.getElementById('linkTitle').value = '';
         document.getElementById('linkUrl').value = '';
+        document.getElementById('saveBtn').textContent = "Save Link";
+        document.getElementById('cancelBtn').classList.add('hidden');
     }
 
-    function showToast(msg) {
-        const x = document.getElementById("toast");
-        x.textContent = msg;
-        x.className = "show";
-        setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
+    // --- UTILS: MODAL & TOAST ---
+    function showModal(title, msg) {
+        return new Promise((resolve) => {
+            const overlay = document.getElementById('modal-overlay');
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-msg').innerHTML = msg; // Allows HTML like <b>
+
+            overlay.classList.add('show');
+
+            const confirmBtn = document.getElementById('modal-confirm');
+            const cancelBtn = document.getElementById('modal-cancel');
+
+            const close = (val) => {
+                overlay.classList.remove('show');
+                // Remove listeners to prevent multi-firing on next call
+                confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+                cancelBtn.replaceWith(cancelBtn.cloneNode(true));
+                resolve(val);
+            };
+
+            document.getElementById('modal-confirm').onclick = () => close(true);
+            document.getElementById('modal-cancel').onclick = () => close(false);
+        });
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-msg').innerText = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
     }
 </script>
 </body>
