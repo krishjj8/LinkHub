@@ -20,7 +20,7 @@ spec:
         - name: link-service
           # We use the image we pushed to ECR!
           # REPLACE THIS with your actual ECR URI (e.g., 123456789.dkr.ecr.ap-south-1.amazonaws.com/link-service:latest)
-          image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/link-service:485d98af25ec94102b84a3230d118c82cd375b3c
+          image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/link-service:755882a3a204e672873600fbbf1dfa2001573177
           ports:
             - containerPort: 8080
           env:
