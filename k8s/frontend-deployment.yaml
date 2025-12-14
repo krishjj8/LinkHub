@@ -19,6 +19,7 @@ spec:
       - name: linkhub-frontend
         # This matches the image you just pushed
         image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/linkhub-frontend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         resources:
@@ -34,7 +35,7 @@ kind: Service
 metadata:
   name: linkhub-frontend
 spec:
-  type: LoadBalancer # <--- This requests a Public IP from AWS
+  type: ClusterIP # <--- This requests a Public IP from AWS
   ports:
   - port: 80
     targetPort: 80
