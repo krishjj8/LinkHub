@@ -21,7 +21,6 @@ public class Link implements Serializable { // <--- MUST implement Serializable
     private String title;
     private String url;
 
-    // This creates the Foreign Key (user_id) in the database
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude // Stop the loop here too

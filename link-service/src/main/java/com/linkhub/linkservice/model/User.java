@@ -28,7 +28,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    // @ToString.Exclude prevents the Infinite Loop!
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Link> links;

@@ -19,7 +19,7 @@ public class LinkService {
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
 
-    // --- CONSTRUCTOR INJECTION (The Wiring) ---
+
     public LinkService(LinkRepository linkRepository, UserRepository userRepository, RestTemplate restTemplate) {
         this.linkRepository = linkRepository;
         this.userRepository = userRepository;
