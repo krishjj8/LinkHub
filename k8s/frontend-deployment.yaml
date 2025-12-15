@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: linkhub-frontend-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: linkhub-frontend
@@ -14,31 +14,33 @@ spec:
         app: linkhub-frontend
     spec:
       imagePullSecrets:
-      - name: regcred
+        - name: regcred
       containers:
-      - name: linkhub-frontend
-        # This matches the image you just pushed
-        image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/linkhub-frontend:51820d3b236fec36712c8bfa0612eaac77982e54
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        resources:
-          limits:
-            memory: "64Mi"
-            cpu: "100m"
+        - name: linkhub-frontend
+          image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/linkhub-frontend:51820d3b236fec36712c8bfa0612eaac77982e54
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
 
 ---
 
-# 2. Service: The "Door" to the outside world
+# 2. Service
 apiVersion: v1
 kind: Service
 metadata:
   name: linkhub-frontend
 spec:
-  type: ClusterIP # <--- This requests a Public IP from AWS
+  type: ClusterIP
   ports:
-  - port: 80
-    targetPort: 80
-    protocol: TCP
+    - port: 80
+      targetPort: 80
+      protocol: TCP
   selector:
     app: linkhub-frontend

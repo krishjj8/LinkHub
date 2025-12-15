@@ -5,12 +5,12 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: write # Needed to update the k8s manifest
+  contents: write
 
 jobs:
   build-push-update:
     runs-on: ubuntu-latest
-    # Define these variables globally so all steps can see them
+
     env:
       ECR_REPOSITORY: link-service
       IMAGE_TAG: ${{ github.sha }}
