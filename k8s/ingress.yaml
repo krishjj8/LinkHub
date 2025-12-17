@@ -5,6 +5,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
+    - host: linkhub.13.235.27.139.nip.io
     - http:
         paths:
           # RULE 1: API TRAFFIC (This must be here!)
