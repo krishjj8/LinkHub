@@ -9,7 +9,8 @@ The architecture addresses common scalability challenges through distributed cac
 ## System Demonstration
 
 <p align="center">
-  <img src="vid2.gif" width="48%" />
+  <img src="assets/vid1.gif" width="48%" />
+  <img src="assets/vid2.gif" width="48%" />
 </p>
 
 > The platform features a responsive frontend interacting with the backend microservices, handling user authentication, profile management, and link redirection with sub-millisecond latency.
@@ -26,7 +27,7 @@ Security is integrated directly into the CI lifecycle ("Shift Left").
 * **Container Security:** Before pushing to the registry, the pipeline runs **Trivy** to scan the Docker image for Critical and High vulnerabilities (CVEs).
 * **Artifact Management:** Secure artifacts are pushed to **AWS ECR (Elastic Container Registry)** only if they pass the security gates.
 
-![CI Pipeline](gitactions.gif)
+![CI Pipeline](assets/gitactions.gif)
 > *Figure 1: GitHub Actions pipeline execution showing successful build and Trivy vulnerability scan before pushing to AWS ECR.*
 
 ### 2. Zero-Touch GitOps Deployment (ArgoCD)
@@ -35,7 +36,7 @@ The deployment model replaces manual `kubectl` operations with a pull-based GitO
 * **Automated Sync:** ArgoCD monitors the repository for changes (e.g., a new image tag from the CI pipeline) and automatically synchronizes the production cluster to match the desired state.
 * **Self-Healing:** If a resource is manually modified in the cluster, ArgoCD detects the drift and restores the configuration defined in Git.
 
-![ArgoCD Workflow](argocd.gif)
+![ArgoCD Workflow](assets/argocd.gif)
 > *Figure 2: ArgoCD dashboard visualizing the application tree and successful synchronization of the frontend and backend microservices.*
 
 ### 3. Infrastructure as Code (Terraform)
@@ -44,7 +45,7 @@ The entire cloud environment is provisioned using Terraform, allowing for reprod
 * **Network:** Custom VPC configuration with strict security groups to isolate the database layer.
 * **Storage:** Managed AWS RDS (PostgreSQL) for persistence, decoupled from the compute layer.
 
-![Infrastructure Provisioning](terraformoutput.png)
+![Infrastructure Provisioning](assets/terraformoutput.png)
 > *Figure 3: Terraform output confirming the provisioning of AWS RDS and K3s compute resources.*
 
 ---
@@ -56,7 +57,7 @@ To ensure operational excellence, the platform includes a comprehensive monitori
 * **Metric Collection:** Prometheus scrapes real-time metrics from the application, K3s nodes, and the underlying OS via Node Exporter.
 * **Visualization:** A custom Grafana dashboard visualizes critical resource usage (CPU, Memory, Disk Pressure, and Network I/O), enabling proactive identification of bottlenecks (e.g., OOM kills or disk saturation).
 
-![Grafana Dashboard](Grafana.png)
+![Grafana Dashboard](assets/Grafana.png)
 > *Figure 4: Real-time observability dashboard showing cluster health, revealing high disk pressure and memory usage patterns during load testing.*
 
 ---
@@ -74,15 +75,20 @@ To ensure operational excellence, the platform includes a comprehensive monitori
 
 ---
 
-## Detailed Deployment Guide
+## Detailed Deployment & Engineering Guide
 
-This project follows a "Manual Bootstrapping" approach for the Kubernetes cluster to demonstrate a deep understanding of cluster components.
+This project follows a "Manual Bootstrapping" approach to demonstrate a deep understanding of Kubernetes components.
 
-### Step 1: Provision Infrastructure
+```bash
+# ============================================================
+# Step 1: Provision Infrastructure (Terraform)
+# ============================================================
 
 cd infrastructure
 terraform init
 terraform apply --auto-approve
+# Wait for Output: EC2 Public IP and RDS Endpoint
+
 
 # ============================================================
 # Step 2: Install K3s (Kubernetes)
@@ -92,7 +98,7 @@ terraform apply --auto-approve
 ssh -i "linkhub-key.pem" ubuntu@<EC2_PUBLIC_IP>
 
 # Install K3s on the server
-curl -sfL https://get.k3s.io | sh -
+curl -sfL [https://get.k3s.io](https://get.k3s.io) | sh -
 
 # Verify K3s installation
 sudo kubectl get nodes
@@ -113,11 +119,11 @@ nano ~/.kube/config
 
 # Paste the content copied from the server
 # Replace:
-#   server: https://127.0.0.1:6443
+#   server: [https://127.0.0.1:6443](https://127.0.0.1:6443)
 # With:
 #   server: https://<EC2_PUBLIC_IP>:6443
 
-# Under clusters, add this line:
+# Under clusters, add this line to bypass self-signed certs:
 # insecure-skip-tls-verify: true
 
 # Verify access to the remote cluster
@@ -157,7 +163,7 @@ kubectl create namespace argocd
 
 # Install ArgoCD components
 kubectl apply -n argocd \
-  -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  -f [https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml](https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
 
 # Get initial ArgoCD admin password
 kubectl -n argocd get secret argocd-initial-admin-secret \
@@ -167,7 +173,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 kubectl port-forward svc/argocd-server -n argocd 8081:443
 
 # Access ArgoCD UI in browser
-# https://localhost:8081
+# URL: https://localhost:8081
 # Username: admin
 # Password: output from above command
 
@@ -226,7 +232,7 @@ crictl rmi --prune
 # ============================================================
 
 # [x] AWS Infrastructure via Terraform
-# [x] Docker Compose → Kubernetes (K3s)
+# [x] Docker Compose -> Kubernetes (K3s)
 # [x] GitOps CI/CD with GitHub Actions + ArgoCD
 # [x] Security scanning using Trivy
 # [x] Observability with Prometheus & Grafana
@@ -238,9 +244,8 @@ crictl rmi --prune
 # ============================================================
 
 # Clone the repository
-git clone https://github.com/krishjj8/LinkHub.git
+git clone [https://github.com/krishjj8/LinkHub.git](https://github.com/krishjj8/LinkHub.git)
 cd LinkHub
 
 # Start local stack (App + DB + Redis)
 docker compose up --build
-
