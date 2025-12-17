@@ -8,8 +8,8 @@ The architecture addresses common scalability challenges through distributed cac
 
 ## System Demonstration
 
-![System Demo](vid1.gif)
-![second](vid2.gif)
+![System Demo](vid1.gif)![second](vid2.gif)
+
 > The platform features a responsive frontend interacting with the backend microservices, handling user authentication, profile management, and link redirection with sub-millisecond latency.
 
 ---
