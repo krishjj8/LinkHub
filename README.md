@@ -9,7 +9,6 @@ The architecture addresses common scalability challenges through distributed cac
 ## System Demonstration
 
 <p align="center">
-  <img src="vid1.gif" width="48%" />
   <img src="vid2.gif" width="48%" />
 </p>
 
