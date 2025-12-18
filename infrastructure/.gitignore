@@ -29,3 +29,11 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+/target
+/build
+.classpath
+.project
+.settings
+*.zip
+*.jar
