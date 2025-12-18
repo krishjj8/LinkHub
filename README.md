@@ -139,9 +139,9 @@ kubectl get nodes
 # ------------------------------------------------------------
 
 kubectl create secret docker-registry regcred \
-  --docker-server=408834627625.dkr.ecr.ap-south-1.amazonaws.com \
+  --docker-server=<YOUR_AWS_ACCOUNT_ID>.dkr.ecr.<YOUR_REGION>.amazonaws.com \
   --docker-username=AWS \
-  --docker-password=$(aws ecr get-login-password --region ap-south-1) \
+  --docker-password=$(aws ecr get-login-password --region <YOUR_REGION>) \
   --docker-email=unused@example.com
 
 
