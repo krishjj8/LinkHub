@@ -14,7 +14,7 @@ crash.log
 *.tfvars
 
 # Ignore override files as they are usually used for local testing and contain
-# sensitive data.
+# sensitive data...
 override.tf
 override.tf.json
 *_override.tf
@@ -30,10 +30,3 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-/target
-/build
-.classpath
-.project
-.settings
-*.zip
-*.jar
