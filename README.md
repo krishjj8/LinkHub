@@ -21,10 +21,6 @@ The architecture addresses common scalability challenges through distributed cac
 ![LinkHub Cloud Architecture](assets/3.png)
 > **Figure 1: Cloud Architecture.
 
-The system has been evolved from a monolithic application into a resilient distributed system...
-
-The system has been evolved from a monolithic application into a resilient distributed system hosted on AWS.
-
 ### 1. DevSecOps Pipeline & Vulnerability Scanning
 Security is integrated directly into the CI lifecycle ("Shift Left").
 * **Automated CI:** GitHub Actions triggers on every commit to build the Java application.
@@ -32,7 +28,7 @@ Security is integrated directly into the CI lifecycle ("Shift Left").
 * **Artifact Management:** Secure artifacts are pushed to **AWS ECR (Elastic Container Registry)** only if they pass the security gates.
 
 ![CI Pipeline](assets/gitactions.gif)
-> *Figure 1: GitHub Actions pipeline execution showing successful build and Trivy vulnerability scan before pushing to AWS ECR.*
+> *Figure 2: GitHub Actions pipeline execution showing successful build and Trivy vulnerability scan before pushing to AWS ECR.*
 
 ### 2. Zero-Touch GitOps Deployment (ArgoCD)
 The deployment model replaces manual `kubectl` operations with a pull-based GitOps workflow using **ArgoCD**.
@@ -41,7 +37,7 @@ The deployment model replaces manual `kubectl` operations with a pull-based GitO
 * **Self-Healing:** If a resource is manually modified in the cluster, ArgoCD detects the drift and restores the configuration defined in Git.
 
 ![ArgoCD Workflow](assets/argocd.gif)
-> *Figure 2: ArgoCD dashboard visualizing the application tree and successful synchronization of the frontend and backend microservices.*
+> *Figure 3: ArgoCD dashboard visualizing the application tree and successful synchronization of the frontend and backend microservices.*
 
 ### 3. Infrastructure as Code (Terraform)
 The entire cloud environment is provisioned using Terraform, allowing for reproducible and ephemeral infrastructure.
@@ -50,7 +46,7 @@ The entire cloud environment is provisioned using Terraform, allowing for reprod
 * **Storage:** Managed AWS RDS (PostgreSQL) for persistence, decoupled from the compute layer.
 
 ![Infrastructure Provisioning](assets/terraformoutput.png)
-> *Figure 3: Terraform output confirming the provisioning of AWS RDS and K3s compute resources.*
+> *Figure 4: Terraform output confirming the provisioning of AWS RDS and K3s compute resources.*
 
 ---
 
@@ -62,7 +58,7 @@ To ensure operational excellence, the platform includes a comprehensive monitori
 * **Visualization:** A custom Grafana dashboard visualizes critical resource usage (CPU, Memory, Disk Pressure, and Network I/O), enabling proactive identification of bottlenecks (e.g., OOM kills or disk saturation).
 
 ![Grafana Dashboard](assets/Grafana.png)
-> *Figure 4: Real-time observability dashboard showing cluster health, revealing high disk pressure and memory usage patterns during load testing.*
+> *Figure 5: Real-time observability dashboard showing cluster health, revealing high disk pressure and memory usage patterns during load testing.*
 
 ---
 
