@@ -1,0 +1,9 @@
+# Ignore all HTML files from language statistics
+*.html linguist-vendored
+
+# If you have a folder with frontend/static assets, ignore the whole folder
+src/main/resources/static/* linguist-vendored
+src/main/resources/templates/* linguist-vendored
+
+# Force GitHub to treat the project as Java
+*.java linguist-detectable=true
