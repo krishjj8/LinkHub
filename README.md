@@ -18,6 +18,11 @@ The architecture addresses common scalability challenges through distributed cac
 
 ## Architectural Highlights
 
+![LinkHub Cloud Architecture](final.png)
+> **Figure 1: Cloud Architecture.
+
+The system has been evolved from a monolithic application into a resilient distributed system...
+
 The system has been evolved from a monolithic application into a resilient distributed system hosted on AWS.
 
 ### 1. DevSecOps Pipeline & Vulnerability Scanning
