@@ -20,7 +20,7 @@ spec:
         - name: link-service
 
 
-          image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/link-service:c18baedb8dbe1dfecfca1b2b89283d5c1a3df754
+          image: 408834627625.dkr.ecr.ap-south-1.amazonaws.com/link-service:5c3dfb42dd1f7684d53879c1fd39002363f7e226
           ports:
             - containerPort: 8080
           env:
