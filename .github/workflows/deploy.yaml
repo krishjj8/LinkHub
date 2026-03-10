@@ -40,7 +40,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # --- STEP 1: BUILD (But don't push yet) ---
+      #  BUILD
       - name: Build Docker Image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -48,7 +48,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
-      # --- STEP 2: SECURITY SCAN (The Gatekeeper) ---
+      # SECURITY SCAN
       - name: Run Trivy via Docker
         run : |
           docker run --rm \
@@ -63,7 +63,7 @@ jobs:
           
         
 
-      # --- STEP 3: PUSH (Only runs if Scan passes) ---
+      #  PUSH
       - name: Push Docker Image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -72,7 +72,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
-      # --- STEP 4: DEPLOY (GitOps) ---
+      #  DEPLOY
       - name: Update Kubernetes Manifest
         run: |
           sed -i "s|image: .*|image: ${{ env.IMAGE_URI }}|g" k8s/link-service.yaml

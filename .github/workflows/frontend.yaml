@@ -31,7 +31,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # --- STEP 1: BUILD (But don't push yet) ---
+      # BUILD
       - name: Build Docker Image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -39,7 +39,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
-      # --- STEP 2: SECURITY SCAN (Trivy) ---
+      #  SECURITY SCAN (Trivy)
       - name: Run Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -50,7 +50,7 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
-      # --- STEP 3: PUSH (Only runs if Scan passes) ---
+      # PUSH
       - name: Push Docker Image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -61,7 +61,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
-      # --- STEP 4: UPDATE K8S MANIFEST (GitOps) ----
+      # UPDATE K8S MANIFEST
       - name: Update Kubernetes Manifest
         run: |
           git config --global user.name 'GitHub Actions'

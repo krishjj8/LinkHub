@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:7.2-alpine # Lightweight version
+          image: redis:7.2-alpine
           ports:
             - containerPort: 6379
           resources:
@@ -38,4 +38,4 @@ spec:
     - protocol: TCP
       port: 6379
       targetPort: 6379
-  type: ClusterIP # Internal only (Security practice)
+  type: ClusterIP
