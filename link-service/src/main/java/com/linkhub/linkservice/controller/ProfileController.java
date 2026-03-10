@@ -15,7 +15,7 @@ public class ProfileController {
         this.userService = userService;
     }
 
-    // Endpoint: GET /api/v1/profiles/devops_king
+
     @GetMapping("/{username}")
     public ResponseEntity<ProfileResponseDto> getProfile(@PathVariable String username) {
         ProfileResponseDto profile = userService.getPublicProfile(username);

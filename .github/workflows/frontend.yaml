@@ -61,7 +61,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
-      # --- STEP 4: UPDATE K8S MANIFEST (GitOps) ---
+      # --- STEP 4: UPDATE K8S MANIFEST (GitOps) ----
       - name: Update Kubernetes Manifest
         run: |
           git config --global user.name 'GitHub Actions'

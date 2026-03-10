@@ -23,6 +23,6 @@ public class Link implements Serializable { // <--- MUST implement Serializable
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @ToString.Exclude // Stop the loop here too
+    @ToString.Exclude
     private User user;
 }
